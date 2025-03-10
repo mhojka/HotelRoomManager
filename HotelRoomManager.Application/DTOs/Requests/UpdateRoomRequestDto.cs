@@ -1,5 +1,9 @@
-﻿namespace HotelRoomManager.Application.DTOs.Requests;
+﻿using HotelRoomManager.Domain.Enums;
 
-public class UpdateRoomRequestDto
+namespace HotelRoomManager.Application.DTOs.Requests;
+
+public class UpdateRoomRequestDto()
 {
+    public required string Name { get; set; }
+    public required RoomSize Size { get; set; }
 }

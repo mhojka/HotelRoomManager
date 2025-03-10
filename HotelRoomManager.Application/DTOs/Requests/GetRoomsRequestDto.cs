@@ -1,5 +1,6 @@
 ﻿namespace HotelRoomManager.Application.DTOs.Requests
 {
+    using HotelRoomManager.Domain.Enums;
     using Microsoft.AspNetCore.Mvc;
 
     public class GetRoomsRequestDto
@@ -8,9 +9,9 @@
         public string? Name { get; set; }
 
         [FromQuery]
-        public int? Size { get; set; }
+        public RoomSize? Size { get; set; }
 
         [FromQuery]
-        public string? Availability { get; set; }
+        public bool? Availability { get; set; }
     }
 }

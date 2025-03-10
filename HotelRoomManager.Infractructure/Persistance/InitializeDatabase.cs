@@ -1,6 +1,6 @@
 ﻿namespace HotelRoomManager.Infractructure.Persistance;
 
-public class HotelRoomContext
+public class InitializeDatabase
 {
     
 }
