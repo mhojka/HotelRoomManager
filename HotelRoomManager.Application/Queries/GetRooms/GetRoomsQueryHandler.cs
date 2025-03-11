@@ -19,6 +19,6 @@ public class GetRoomsQueryHandler : IQueryHandler<GetRoomsQuery, List<RoomDto>>
 
     public List<RoomDto> Handle(GetRoomsQuery query)
     {
-        return _roomRepository.GetAll(query.Name, query.Size, query.Availability).ConvertAll(x => _roomToRoomDtoMapper.Map(x));
+        return _roomRepository.GetAll(query.Number, query.Size, query.Availability).ConvertAll(x => _roomToRoomDtoMapper.Map(x));
     }
 }

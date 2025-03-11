@@ -7,7 +7,7 @@
     {
         public int Id { get; set; }
 
-        public required string Name { get; set; }
+        public required string Number { get; set; }
 
         public RoomSize Size { get; set; }
 
@@ -15,9 +15,9 @@
 
         public string? OccupiedDescription { get; set; }
 
-        public void Update(string name, RoomSize size)
+        public void Update(string Number, RoomSize size)
         {
-            Name = name;
+            this.Number = Number;
             Size = size;
         }
 

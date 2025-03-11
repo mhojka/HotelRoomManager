@@ -28,7 +28,7 @@ public class UpdateRoomCommandHandler : ICommandHandler<UpdateRoomCommand, Respo
             return ResponseDto<RoomDto>.CreateNotFoundResponse($"Room with Id {command.Id} not found");
         }
 
-        room.Update(command.UpdateRoomRequestDto.Name, command.UpdateRoomRequestDto.Size);
+        room.Update(command.UpdateRoomRequestDto.Number, command.UpdateRoomRequestDto.Size);
 
         _roomRepository.Update(room);
 

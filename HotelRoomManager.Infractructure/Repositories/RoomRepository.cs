@@ -13,12 +13,12 @@ public class RoomRepository : IRoomRepository
         _context = context;
     }
 
-    public List<Room> GetAll(string? name, RoomSize? size, bool? availability)
+    public List<Room> GetAll(string? number, RoomSize? size, bool? availability)
     {
         var rooms = _context.Rooms.AsQueryable();
-        if (name is not null)
+        if (number is not null)
         {
-            rooms = rooms.Where(r => r.Name == name);
+            rooms = rooms.Where(r => r.Number.Contains(number));
         }
 
         if (size is not null)

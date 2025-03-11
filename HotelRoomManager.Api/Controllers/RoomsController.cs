@@ -46,7 +46,7 @@ namespace HotelRoomManager.Api.Controllers
         public IEnumerable<RoomDto> Get(GetRoomsRequestDto requestDto)
         {
             var result = _getRoomsQueryHandler.Handle(
-                new GetRoomsQuery(requestDto.Name, requestDto.Size, requestDto.Availability));
+                new GetRoomsQuery(requestDto.Number, requestDto.Size, requestDto.Availability));
 
             return result;
         }

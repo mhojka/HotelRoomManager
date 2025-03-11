@@ -9,10 +9,10 @@ public class RoomToRoomDtoMapper : IMapper<Room, RoomDto>
     {
         return new RoomDto
         {
-            Name = from.Name,
+            Number = from.Number,
             Id = from.Id,
             Size = from.Size,
-            Availability = from.OccupiedType is null,
+            IsAvailable = from.OccupiedType is null,
             OccupiedType = from.OccupiedType,
             OccupiedDescription = from.OccupiedDescription
         };

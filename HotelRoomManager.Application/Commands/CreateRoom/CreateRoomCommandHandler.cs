@@ -22,9 +22,14 @@ public class CreateRoomCommandHandler : ICommandHandler<CreateRoomCommand, Respo
 
     public ResponseDto<RoomDto> Handle(CreateRoomCommand command)
     {
+        if (string.IsNullOrEmpty(command.CreateRoomRequestDto.Number))
+        {
+            return ResponseDto<RoomDto>.CreateBadRequest($"{nameof(command.CreateRoomRequestDto.Number)} can not be empty");
+        }
+
         var room = new Room
         {
-            Name = command.CreateRoomRequestDto.Name,
+            Number = command.CreateRoomRequestDto.Number,
             Size = command.CreateRoomRequestDto.Size
         };
 

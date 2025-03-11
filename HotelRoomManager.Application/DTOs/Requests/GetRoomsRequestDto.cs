@@ -6,7 +6,7 @@
     public class GetRoomsRequestDto
     {
         [FromQuery]
-        public string? Name { get; set; }
+        public string? Number { get; set; }
 
         [FromQuery]
         public RoomSize? Size { get; set; }
