@@ -9,15 +9,15 @@
 
         public required string Number { get; set; }
 
-        public RoomSize Size { get; set; }
+        public required RoomSize Size { get; set; }
 
         public OccupiedType? OccupiedType { get; set; }
 
         public string? OccupiedDescription { get; set; }
 
-        public void Update(string Number, RoomSize size)
+        public void Update(string number, RoomSize size)
         {
-            this.Number = Number;
+            this.Number = number;
             Size = size;
         }
 

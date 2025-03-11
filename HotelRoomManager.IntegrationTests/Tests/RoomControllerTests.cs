@@ -45,15 +45,16 @@ public class RoomControllerTests : IClassFixture<HotelRoomManagerTestFactory>
     {
         // Arrange
         var client = _factory.CreateClient();
-        const string filterNumber = "Test room";
+        const string filterNumber = "001";
 
         // Act
-        var response = await client.GetAsync($"/rooms?name={filterNumber}");
+        var response = await client.GetAsync($"/rooms?number={filterNumber}");
 
         // Assert
         response.EnsureSuccessStatusCode();
         var rooms = await response.Content.ReadFromJsonAsync<List<RoomDto>>(_jsonOptions);
         Assert.NotNull(rooms);
+        Assert.NotEmpty(rooms);
         Assert.All(rooms, room =>
         {
             Assert.Contains(filterNumber, room.Number, StringComparison.OrdinalIgnoreCase);
