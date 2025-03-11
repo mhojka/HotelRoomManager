@@ -20,7 +20,7 @@ public class CreateRoomCommandHandler : ICommandHandler<CreateRoomCommand, Respo
         _roomToRoomDtoMapper = roomToRoomDtoMapper;
     }
 
-    public ResponseDto<RoomDto> Handle(CreateRoomCommand command)
+    public async Task<ResponseDto<RoomDto>> Handle(CreateRoomCommand command)
     {
         if (string.IsNullOrEmpty(command.CreateRoomRequestDto.Number))
         {
@@ -33,7 +33,7 @@ public class CreateRoomCommandHandler : ICommandHandler<CreateRoomCommand, Respo
             Size = command.CreateRoomRequestDto.Size
         };
 
-        _roomRepository.Create(room);
+        await _roomRepository.Create(room);
 
         return ResponseDto<RoomDto>.CreateOkResponse(_roomToRoomDtoMapper.Map(room));
     }

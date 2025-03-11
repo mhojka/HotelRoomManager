@@ -43,9 +43,9 @@ namespace HotelRoomManager.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(List<RoomDto>), 200)]
-        public IEnumerable<RoomDto> Get(GetRoomsRequestDto requestDto)
+        public async Task<List<RoomDto>> Get(GetRoomsRequestDto requestDto)
         {
-            var result = _getRoomsQueryHandler.Handle(
+            var result = await _getRoomsQueryHandler.Handle(
                 new GetRoomsQuery(requestDto.Number, requestDto.Size, requestDto.Availability));
 
             return result;
@@ -54,9 +54,9 @@ namespace HotelRoomManager.Api.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(RoomDto), 200)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var response = _getRoomQueryHandler.Handle(new GetRoomQuery(id));
+            var response = await _getRoomQueryHandler.Handle(new GetRoomQuery(id));
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -69,9 +69,9 @@ namespace HotelRoomManager.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(RoomDto), 200)]
         [ProducesResponseType(400)]
-        public IActionResult CreateRoom([FromBody] CreateRoomRequestDto createRoomRequestDto)
+        public async Task<IActionResult> CreateRoom([FromBody] CreateRoomRequestDto createRoomRequestDto)
         {
-            var response = _createRoomRequestHandler.Handle(new CreateRoomCommand(createRoomRequestDto));
+            var response = await _createRoomRequestHandler.Handle(new CreateRoomCommand(createRoomRequestDto));
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -85,9 +85,9 @@ namespace HotelRoomManager.Api.Controllers
         [ProducesResponseType(typeof(RoomDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Update(int id, UpdateRoomRequestDto requestDto)
+        public async Task<IActionResult> Update(int id, UpdateRoomRequestDto requestDto)
         {
-            var response = _updateRoomRequestHandler.Handle(new UpdateRoomCommand(id, requestDto));
+            var response = await _updateRoomRequestHandler.Handle(new UpdateRoomCommand(id, requestDto));
 
             return response.StatusCode switch
             {
@@ -101,9 +101,9 @@ namespace HotelRoomManager.Api.Controllers
         [ProducesResponseType(typeof(RoomDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult OccupyRoom(int id, [FromBody] OccupyRequestDto request)
+        public async Task<IActionResult> OccupyRoom(int id, [FromBody] OccupyRequestDto request)
         {
-            var response = _occupyRoomRequestHandler.Handle(new OccupyRoomCommand(id, request));
+            var response = await _occupyRoomRequestHandler.Handle(new OccupyRoomCommand(id, request));
 
             return response.StatusCode switch
             {
@@ -116,9 +116,9 @@ namespace HotelRoomManager.Api.Controllers
         [HttpPost("{id:int}/available")]
         [ProducesResponseType(typeof(RoomDto), 200)]
         [ProducesResponseType(404)]
-        public IActionResult CreateRoom(int id)
+        public async Task<IActionResult> CreateRoom(int id)
         {
-            var response = _makeRoomAvailableRequestHandler.Handle(new MakeRoomAvailableCommand(id));
+            var response = await _makeRoomAvailableRequestHandler.Handle(new MakeRoomAvailableCommand(id));
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {

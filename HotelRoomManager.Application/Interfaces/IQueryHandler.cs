@@ -1,6 +1,6 @@
 ﻿namespace HotelRoomManager.Application.Interfaces;
 
-public interface IQueryHandler<in TQuery, out TResponse> where TQuery : IQuery
+public interface IQueryHandler<in TQuery, TResponse> where TQuery : IQuery
 {
-    TResponse Handle(TQuery query);
+    Task<TResponse> Handle(TQuery query);
 }

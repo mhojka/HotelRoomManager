@@ -22,9 +22,9 @@ public class OccupyRoomCommandHandler : ICommandHandler<OccupyRoomCommand, Respo
         _roomToRoomDtoMapper = roomToRoomDtoMapper;
     }
 
-    public ResponseDto<RoomDto> Handle(OccupyRoomCommand command)
+    public async Task<ResponseDto<RoomDto>> Handle(OccupyRoomCommand command)
     {
-        var room = _roomRepository.GetById(command.Id);
+        var room = await _roomRepository.GetById(command.Id);
         if (room is null)
         {
             return ResponseDto<RoomDto>.CreateNotFoundResponse($"Room with Id {command.Id} not found");
@@ -57,7 +57,7 @@ public class OccupyRoomCommandHandler : ICommandHandler<OccupyRoomCommand, Respo
 
         }
 
-        _roomRepository.Update(room);
+        await _roomRepository.Update(room);
 
         return ResponseDto<RoomDto>.CreateOkResponse(_roomToRoomDtoMapper.Map(room));
     }

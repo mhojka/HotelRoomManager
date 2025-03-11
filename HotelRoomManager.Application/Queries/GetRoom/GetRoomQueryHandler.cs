@@ -18,9 +18,9 @@ public class GetRoomQueryHandler : IQueryHandler<GetRoomQuery, ResponseDto<RoomD
         _roomToRoomDtoMapper = roomToRoomDtoMapper;
     }
 
-    public ResponseDto<RoomDto> Handle(GetRoomQuery query)
+    public async Task<ResponseDto<RoomDto>> Handle(GetRoomQuery query)
     {
-        var room = _roomRepository.GetById(query.Id);
+        var room = await _roomRepository.GetById(query.Id);
         if (room is null)
         {
             return ResponseDto<RoomDto>.CreateNotFoundResponse($"Room with Id {query.Id} not found");

@@ -3,6 +3,7 @@
 using HotelRoomManager.Domain.Entities;
 using HotelRoomManager.Domain.Enums;
 using HotelRoomManager.Infractructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 public class RoomRepository : IRoomRepository
 {
@@ -13,7 +14,7 @@ public class RoomRepository : IRoomRepository
         _context = context;
     }
 
-    public List<Room> GetAll(string? number, RoomSize? size, bool? availability)
+    public async Task<List<Room>> GetAll(string? number, RoomSize? size, bool? availability)
     {
         var rooms = _context.Rooms.AsQueryable();
         if (number is not null)
@@ -31,23 +32,23 @@ public class RoomRepository : IRoomRepository
             rooms = rooms.Where(x => x.OccupiedType == null);
         }
 
-        return rooms.ToList();
+        return await rooms.ToListAsync();
     }
 
-    public Room? GetById(int id)
+    public async Task<Room?> GetById(int id)
     {
-        return _context.Rooms.FirstOrDefault(x => x.Id == id);
+        return await _context.Rooms.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public void Update(Room room)
+    public async Task Update(Room room)
     {
         _context.Rooms.Update(room);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public void Create(Room room)
+    public async Task Create(Room room)
     {
         _context.Rooms.Add(room);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

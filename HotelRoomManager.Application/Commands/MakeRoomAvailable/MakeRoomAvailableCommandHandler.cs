@@ -20,9 +20,9 @@ public class MakeRoomAvailableCommandHandler : ICommandHandler<MakeRoomAvailable
         _roomToRoomDtoMapper = roomToRoomDtoMapper;
     }
 
-    public ResponseDto<RoomDto> Handle(MakeRoomAvailableCommand command)
+    public async Task<ResponseDto<RoomDto>> Handle(MakeRoomAvailableCommand command)
     {
-        var room = _roomRepository.GetById(command.Id);
+        var room = await _roomRepository.GetById(command.Id);
         if (room is null)
         {
             return ResponseDto<RoomDto>.CreateNotFoundResponse($"Room with Id {command.Id} not found");
@@ -30,7 +30,7 @@ public class MakeRoomAvailableCommandHandler : ICommandHandler<MakeRoomAvailable
 
         room.MarkAsAvailable();
 
-        _roomRepository.Update(room);
+        await _roomRepository.Update(room);
 
         return ResponseDto<RoomDto>.CreateOkResponse(_roomToRoomDtoMapper.Map(room));
     }

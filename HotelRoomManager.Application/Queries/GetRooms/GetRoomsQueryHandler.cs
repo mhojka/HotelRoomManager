@@ -17,8 +17,10 @@ public class GetRoomsQueryHandler : IQueryHandler<GetRoomsQuery, List<RoomDto>>
         _roomToRoomDtoMapper = roomToRoomDtoMapper;
     }
 
-    public List<RoomDto> Handle(GetRoomsQuery query)
+    public async Task<List<RoomDto>> Handle(GetRoomsQuery query)
     {
-        return _roomRepository.GetAll(query.Number, query.Size, query.Availability).ConvertAll(x => _roomToRoomDtoMapper.Map(x));
+        var rooms = await _roomRepository.GetAll(query.Number, query.Size, query.Availability);
+
+        return rooms.ConvertAll(x => _roomToRoomDtoMapper.Map(x));
     }
 }

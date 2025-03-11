@@ -5,8 +5,8 @@ using HotelRoomManager.Domain.Enums;
 
 public interface IRoomRepository
 {
-    List<Room> GetAll(string? number, RoomSize? size, bool? availability);
-    Room? GetById(int id);
-    void Update(Room room);
-    void Create(Room room);
+    Task<List<Room>> GetAll(string? number, RoomSize? size, bool? availability);
+    Task<Room?> GetById(int id);
+    Task Update(Room room);
+    Task Create(Room room);
 }

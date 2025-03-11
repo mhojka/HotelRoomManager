@@ -26,7 +26,7 @@ public class MakeRoomAvailableCommandHandlerTests
     }
 
     [Fact]
-    public void Handle_WithExistingRoom_ShouldMarkRoomAsAvailableAndReturnOkResponse()
+    public async Task Handle_WithExistingRoom_ShouldMarkRoomAsAvailableAndReturnOkResponse()
     {
         // Arrange
         var roomId = 1;
@@ -55,7 +55,7 @@ public class MakeRoomAvailableCommandHandlerTests
         _roomMapper.Map(Arg.Any<Room>()).Returns(expectedDto);
 
         // Act
-        var result = _sut.Handle(command);
+        var result = await _sut.Handle(command);
 
         // Assert
         Assert.NotNull(result);
@@ -64,13 +64,13 @@ public class MakeRoomAvailableCommandHandlerTests
         Assert.Null(room.OccupiedType);
         Assert.Null(room.OccupiedDescription);
 
-        _roomRepository.Received(1).Update(room);
+        await _roomRepository.Received(1).Update(room);
 
         _roomMapper.Received(1).Map(room);
     }
 
     [Fact]
-    public void Handle_WithExistingRoomUnderMaintenance_ShouldClearDescriptionAndReturnOkResponse()
+    public async Task Handle_WithExistingRoomUnderMaintenance_ShouldClearDescriptionAndReturnOkResponse()
     {
         // Arrange
         var roomId = 2;
@@ -99,7 +99,7 @@ public class MakeRoomAvailableCommandHandlerTests
         _roomMapper.Map(Arg.Any<Room>()).Returns(expectedDto);
 
         // Act
-        var result = _sut.Handle(command);
+        var result = await _sut.Handle(command);
 
         // Assert
         Assert.NotNull(result);
@@ -107,11 +107,11 @@ public class MakeRoomAvailableCommandHandlerTests
         Assert.Equal(expectedDto, result.Data);
         Assert.Null(room.OccupiedType);
         Assert.Null(room.OccupiedDescription);
-        _roomRepository.Received(1).Update(room);
+        await _roomRepository.Received(1).Update(room);
     }
 
     [Fact]
-    public void Handle_WithNonExistentRoom_ShouldReturnNotFoundResponse()
+    public async Task Handle_WithNonExistentRoom_ShouldReturnNotFoundResponse()
     {
         // Arrange
         var roomId = 999; // Non-existent room ID
@@ -120,20 +120,20 @@ public class MakeRoomAvailableCommandHandlerTests
         _roomRepository.GetById(roomId).Returns((Room)null!);
 
         // Act
-        var result = _sut.Handle(command);
+        var result = await _sut.Handle(command);
 
         // Assert
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         Assert.Null(result.Data);
         Assert.Equal($"Room with Id {roomId} not found", result.Message);
-        _roomRepository.Received(1).GetById(roomId);
-        _roomRepository.DidNotReceive().Update(Arg.Any<Room>());
+        await _roomRepository.Received(1).GetById(roomId);
+        await _roomRepository.DidNotReceive().Update(Arg.Any<Room>());
         _roomMapper.DidNotReceive().Map(Arg.Any<Room>());
     }
 
     [Fact]
-    public void Handle_WithAlreadyAvailableRoom_ShouldStillUpdateAndReturnOkResponse()
+    public async Task Handle_WithAlreadyAvailableRoom_ShouldStillUpdateAndReturnOkResponse()
     {
         // Arrange
         var roomId = 3;
@@ -162,14 +162,14 @@ public class MakeRoomAvailableCommandHandlerTests
         _roomMapper.Map(Arg.Any<Room>()).Returns(expectedDto);
 
         // Act
-        var result = _sut.Handle(command);
+        var result = await _sut.Handle(command);
 
         // Assert
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(expectedDto, result.Data);
 
-        _roomRepository.Received(1).Update(room);
+        await _roomRepository.Received(1).Update(room);
         _roomMapper.Received(1).Map(room);
     }
 }

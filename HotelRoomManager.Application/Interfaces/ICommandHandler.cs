@@ -1,6 +1,6 @@
 ﻿namespace HotelRoomManager.Application.Interfaces;
 
-public interface ICommandHandler<in TCommand, out TResponseDto> where TCommand : ICommand
+public interface ICommandHandler<in TCommand, TResponseDto> where TCommand : ICommand
 {
-    TResponseDto Handle(TCommand command);
+    Task<TResponseDto> Handle(TCommand command);
 }
